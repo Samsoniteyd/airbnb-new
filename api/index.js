@@ -48,6 +48,17 @@ app.post('/register', async(req, res)=> {
 
 });
 
+app.post('/login', async (req, res) => {
+    const {email, password} = req.body;
+    const userDoc = await User.findOne({email});
+    if (userDoc) {
+        const passOk =bcrypt.compareSync(password, userDoc.password)
+    } else {
+        res.json('not found');
+    }
+
+});
+
 app.listen(port, ()=> {
     console.log(`server running on port ${port}`);
 });
