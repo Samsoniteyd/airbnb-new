@@ -24,7 +24,8 @@ function App() {
           <Route index element={< Ind exPage />} />
           <Route path='/login' element={< LoginPage />} />
           <Route path='/Register' element={< Register />} />
-          <Route path='/account' element={< AccountPage />} />
+          <Route path='/account/:subpage?' element={< AccountPage />} />
+          
           </Route>
         </Routes>  
    
