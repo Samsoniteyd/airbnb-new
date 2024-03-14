@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PhotosUploader from '../PhotosUploader';
 import Perks from '../perks';
 import { useState } from 'react';
+import AccountNav from './AccountNav';
+import { Navigate, useParams } from 'react-router-dom';
 
 
 const PlacesFormPage = () => {
     
-   
+   const{id} = useParams();
     const [title,setTitle] = useState('');
   const [address,setAddress] = useState('');
   const [description,setDescription] = useState('');
@@ -16,6 +18,29 @@ const PlacesFormPage = () => {
   const [checkOut,setCheckOut] = useState('');
   const [maxGuests,setMaxGuests] = useState(1);
 //   const [price,setPrice] = useState(100);
+const [redirect, setRedirect] = useState(false);
+useEffect(() => {
+    if (!id) {
+        return;
+
+    }
+    axios.get('/places/'+id).then(response => {
+        const {data} = response;
+        setTitle(data.title);
+        setAddress(data.address);
+        setAddedPhotos(data.photos);
+        setDescription(data.description);
+        setPerks(data.perks);
+        setExtraInfo(data.extraInfo);
+        setCheckIn(data.checkIn);
+        setCheckOut(data.checkOut);
+        setMaxGuests(data.maxGuests);
+
+
+
+    });
+}, [id]);
+ 
 function inputHeader(text) {
     return (
         <h2 className='text-2xl mt-4'>{text}</h2>
@@ -40,20 +65,39 @@ function preInput(header, description) {
     );
 }
 
-async function addNewPlace(ev) {
+async function savePlace(ev) {
     ev.preventDefault();
-  await axios.post('/places', {
-    title, address, addedPhotos, 
-    description, perks, extraInfo, 
-    checkIn, checkOut, maxGuests
- });
+    const placeData = {
+        title, address, addedPhotos, 
+        description, perks, extraInfo, 
+        checkIn, checkOut, maxGuests
+     };
+    if (id) {
+        //update
+        await axios.put('/places', {
+        id,
+        ...placeData
+       });
+       setRedirect(true);
+      
+      
+    } else {
+        //new place
 
+        await axios.post('/places', placeData);
+       setRedirect(true);
+      
+      }
+    }
 
+if (redirect) {
+    return <Navigate to={'/account/places'}/>
 }
 
   return (
     <div>
-    <form onSubmit={addNewPlace}>
+        <AccountNav/>
+    <form onSubmit={savePlace}>
         {preInput('Title', 'Lorem ipsum dolor sit amet.')}
         <input type="text" value={title} onChange={ev => setTitle(ev.target.value)} placeholder='title, my apt' />
         {preInput('Address', 'Lorem ipsum dolor sit amet.')}
@@ -75,7 +119,7 @@ async function addNewPlace(ev) {
         {preInput('check in & out, max guests', 'add check in and out')}
        
         <div className='grid gap-2 sm:grid-cols-3'>
-            <div>
+            <div> 
                 <h3 className='mt-2 -mb-1'>check in time</h3>
                 <input type="text" placeholder='14'  value={checkIn} onChange={ev => setCheckIn(ev.target.value)} />
             </div>
