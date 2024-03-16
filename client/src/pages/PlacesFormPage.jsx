@@ -17,7 +17,7 @@ const PlacesFormPage = () => {
   const [checkIn,setCheckIn] = useState('');
   const [checkOut,setCheckOut] = useState('');
   const [maxGuests,setMaxGuests] = useState(1);
-//   const [price,setPrice] = useState(100);
+  const [price,setPrice] = useState(100);
 const [redirect, setRedirect] = useState(false);
 useEffect(() => {
     if (!id) {
@@ -70,7 +70,7 @@ async function savePlace(ev) {
     const placeData = {
         title, address, addedPhotos, 
         description, perks, extraInfo, 
-        checkIn, checkOut, maxGuests
+        checkIn, checkOut, maxGuests, price
      };
     if (id) {
         //update
@@ -118,7 +118,7 @@ if (redirect) {
         <textarea  value={extraInfo} onChange={ev => setExtraInfo(ev.target.value)}/>
         {preInput('check in & out, max guests', 'add check in and out')}
        
-        <div className='grid gap-2 sm:grid-cols-3'>
+        <div className='grid gap-2 sm:grid-cols-2 md:grid-cols-4'>
             <div> 
                 <h3 className='mt-2 -mb-1'>check in time</h3>
                 <input type="text" placeholder='14'  value={checkIn} onChange={ev => setCheckIn(ev.target.value)} />
@@ -130,6 +130,10 @@ if (redirect) {
             <div>
             <h3 className='mt-2 -mb-1'>max number of guests</h3>
                 <input type="number" value={maxGuests} onChange={ev => setMaxGuests(ev.target.value)} />
+            </div>  
+            <div>
+            <h3 className='mt-2 -mb-1'>price by night</h3>
+                <input type="number" value={price} onChange={ev => setPrice(ev.target.value)} />
             </div>  
         </div>
         <div>
