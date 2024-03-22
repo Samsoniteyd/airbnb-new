@@ -35,6 +35,7 @@ useEffect(() => {
         setCheckIn(data.checkIn);
         setCheckOut(data.checkOut);
         setMaxGuests(data.maxGuests);
+        setPrice(data.price);
 
 
 
