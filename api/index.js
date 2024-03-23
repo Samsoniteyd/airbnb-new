@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./models/Users');
 const Place = require('./models/place');
+const Booking = require('./models/Booking');
 const cookieParser = require('cookie-parser');
 const imageDownloader = require('image-downloader');
 const multer = require('multer');
@@ -33,6 +34,18 @@ app.use(cors( {
 
 
  mongoose.connect(process.env.MONGO_URL);
+
+
+ function getUserDataFromReq(req) {
+    return new Promise ((resolve, reject) => {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            resolve(userData)
+        
+        
+        });
+    });
+}
 
 const port = process.env.PORT || 4000;
 
