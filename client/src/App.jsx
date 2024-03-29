@@ -8,7 +8,7 @@ import Register from './pages/Register';
 import axios from 'axios';
 import { UserContextProvider } from './UserContext';
 import { useEffect } from 'react';
-import ProfilePage from './pages/ProfilePagejsx';
+import ProfilePage from './pages/ProfilePage.jsx';
 import PlacesPages from './pages/PlacesPages';
 import PlacesFormPage from './pages/PlacesFormPage';
 import BookingsPage from './pages/BookingsPage';

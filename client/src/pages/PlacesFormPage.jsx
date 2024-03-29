@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PhotosUploader from '../PhotosUploader';
-import Perks from '../perks';
+import Perks from '../Perks';
 import { useState } from 'react';
 import AccountNav from './AccountNav';
 import { Navigate, useParams } from 'react-router-dom';
